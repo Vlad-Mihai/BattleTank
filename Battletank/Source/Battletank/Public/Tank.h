@@ -17,6 +17,9 @@ public:
 	ATank();
 
 	void AimAtLocation(FVector hitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet);
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -30,4 +33,8 @@ protected:
 
 protected:
 	UTankAimingComponent* AimingComponent = nullptr;
+
+private:
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float ProjectileLaunchVelocity = 100000;
 };
