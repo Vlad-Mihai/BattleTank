@@ -20,10 +20,20 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 
+private:
 	ATank* GetControlledTank() const;
 
 	void AimTowardsCrosshair();
 
-private:
 	bool GetSightRayHitLocation(FVector& hitLocation) const;
+
+	bool GetHitLocationByDrection(FVector lookDirection, FVector& hitLocation) const;
+
+private:
+	UPROPERTY(EditAnywhere)
+		float CrosshairXPosition = 0.5;
+	UPROPERTY(EditAnywhere)
+		float CrosshairYPosition = 0.33333;
+	UPROPERTY(EditAnywhere)
+		float LineTraceRange = 1000000;
 };
