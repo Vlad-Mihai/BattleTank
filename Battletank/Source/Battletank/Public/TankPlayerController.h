@@ -27,7 +27,7 @@ private:
 
 	bool GetSightRayHitLocation(FVector& hitLocation) const;
 
-	bool GetHitLocationByDrection(FVector lookDirection, FVector& hitLocation) const;
+	bool GetHitLocationByDirection(FVector lookDirection, FVector& hitLocation) const;
 
 private:
 	UPROPERTY(EditAnywhere)

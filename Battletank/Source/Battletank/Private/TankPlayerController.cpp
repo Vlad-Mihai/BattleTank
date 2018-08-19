@@ -46,7 +46,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLocation) const
 	FVector cameraWorldLocation; // not needed at this time
 	if (DeprojectScreenPositionToWorld(screenLocation.X, screenLocation.Y, cameraWorldLocation, worldDirection))
 	{
-		if (GetHitLocationByDrection(worldDirection, hitLocation))
+		if (GetHitLocationByDirection(worldDirection, hitLocation))
 		{
 			ATank* controlledTank = GetControlledTank();
 			if (!controlledTank)
@@ -60,7 +60,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLocation) const
 	return false;
 }
 
-bool ATankPlayerController::GetHitLocationByDrection(FVector lookDirection, FVector& hitLocation) const
+bool ATankPlayerController::GetHitLocationByDirection(FVector lookDirection, FVector& hitLocation) const
 {
 	FHitResult hitResult;
 	FVector cameraLocation = PlayerCameraManager->GetCameraLocation();
