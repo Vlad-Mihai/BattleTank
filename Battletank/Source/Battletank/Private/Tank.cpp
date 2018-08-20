@@ -33,6 +33,11 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ATank::Fire()
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Tank %s just fired!"), *GetName());
+}
+
 void ATank::AimAtLocation(FVector hitLocation)
 {
 	AimingComponent->AimAtLocation(hitLocation, ProjectileLaunchVelocity);
@@ -41,4 +46,9 @@ void ATank::AimAtLocation(FVector hitLocation)
 void ATank::SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet)
 {
 	AimingComponent->SetBarrelMeshComponent(barrelToSet);
+}
+
+void ATank::SetTurretMeshComponent(UTurretSMC* turretToSet)
+{
+	AimingComponent->SetTurretMeshComponent(turretToSet);
 }

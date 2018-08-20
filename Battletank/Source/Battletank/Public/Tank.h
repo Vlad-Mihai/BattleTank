@@ -18,8 +18,14 @@ public:
 
 	void AimAtLocation(FVector hitLocation);
 
+	UFUNCTION(BlueprintCallable, Category = Firing)
+		void Fire();
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurretMeshComponent(UTurretSMC* turretToSet);
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -36,5 +42,5 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
-		float ProjectileLaunchVelocity = 100000;
+		float ProjectileLaunchVelocity = 70000;
 };

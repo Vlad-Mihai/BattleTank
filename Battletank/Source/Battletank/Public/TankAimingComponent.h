@@ -7,6 +7,7 @@
 #include "TankAimingComponent.generated.h"
 
 class UTankBarrelSMC;
+class UTurretSMC;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -18,6 +19,7 @@ public:
 	UTankAimingComponent();
 
 	void SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet);
+	void SetTurretMeshComponent(UTurretSMC* turretToSet);
 
 	void AimAtLocation(FVector worldSpaceLocation, float ProjectileLaunchVelocity);
 
@@ -26,4 +28,5 @@ private:
 
 private:
 	UTankBarrelSMC* BarrelMeshComponent = nullptr;
+	UTurretSMC* TurretMeshComponent = nullptr;
 };

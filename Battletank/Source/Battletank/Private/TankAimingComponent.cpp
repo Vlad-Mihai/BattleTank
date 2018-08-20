@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrelSMC.h"
+#include "TurretSMC.h "
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values for this component's properties
@@ -48,6 +49,14 @@ void UTankAimingComponent::SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet)
 	}
 }
 
+void UTankAimingComponent::SetTurretMeshComponent(UTurretSMC* turretToSet)
+{
+	if (turretToSet)
+	{
+		TurretMeshComponent = turretToSet;
+	}
+}
+
 void UTankAimingComponent::MoveBarrel(FVector aimDirection)
 {
 	FRotator barrelRotator = BarrelMeshComponent->GetForwardVector().Rotation();
@@ -55,4 +64,5 @@ void UTankAimingComponent::MoveBarrel(FVector aimDirection)
 	FRotator deltaRotator = aimDirectionAsRotator - barrelRotator;
 
 	BarrelMeshComponent->Elevate(deltaRotator.Pitch);
+	TurretMeshComponent->Rotate(deltaRotator.Yaw);
 }
