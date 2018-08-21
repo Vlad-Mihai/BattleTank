@@ -6,17 +6,6 @@
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	auto PlayerTank = GetPlayerControlledTank();
-
-	if (!PlayerTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Could not find player tank"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Found player tank, it's %s"), *(PlayerTank->GetName()));
-	}
 }
 
 // Called every frame
@@ -29,6 +18,8 @@ void ATankAIController::Tick(float DeltaTime)
 	if (playerControlledTank && thisTank)
 	{
 		thisTank->AimAtLocation(playerControlledTank->GetActorLocation());
+
+		GetSelfControlledTank()->Fire();
 	}
 }
 
