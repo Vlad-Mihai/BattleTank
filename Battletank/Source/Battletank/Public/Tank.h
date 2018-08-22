@@ -28,6 +28,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetTurretMeshComponent(UTurretSMC* turretToSet);
+
+
 	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
