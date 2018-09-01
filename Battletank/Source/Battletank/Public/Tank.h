@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 #include "Tank.generated.h"
 
 class AProjectile;
@@ -29,8 +30,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetTurretMeshComponent(UTurretSMC* turretToSet);
 
-
-	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -43,6 +42,9 @@ protected:
 
 protected:
 	UTankAimingComponent* AimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+		UTankMovementComponent* MovementComponent = nullptr;
 
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
