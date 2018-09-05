@@ -41,7 +41,8 @@ protected:
 	virtual void BeginPlay() override;
 
 protected:
-	UTankAimingComponent* AimingComponent = nullptr;
+	UPROPERTY(BlueprintReadOnly)
+		UTankAimingComponent* AimingComponent = nullptr;
 
 	UPROPERTY(BlueprintReadOnly)
 		UTankMovementComponent* MovementComponent = nullptr;
