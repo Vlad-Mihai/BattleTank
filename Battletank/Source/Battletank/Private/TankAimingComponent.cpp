@@ -16,9 +16,15 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::Initialise(UTankBarrelSMC* barrelToSet, UTurretSMC* turretToSet)
+{
+	BarrelMeshComponent = barrelToSet;
+	TurretMeshComponent = turretToSet;
+}
+
 void UTankAimingComponent::AimAtLocation(FVector worldSpaceHitLocation, float projectileLaunchVelocity)
 {
-	if (!BarrelMeshComponent)
+	if (!ensure(BarrelMeshComponent))
 		return;
 
 	FVector suggestedLaunchDirection;
@@ -41,24 +47,11 @@ void UTankAimingComponent::AimAtLocation(FVector worldSpaceHitLocation, float pr
 	}
 }
 
-void UTankAimingComponent::SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet)
-{
-	if (barrelToSet)
-	{
-		BarrelMeshComponent = barrelToSet;
-	}
-}
-
-void UTankAimingComponent::SetTurretMeshComponent(UTurretSMC* turretToSet)
-{
-	if (turretToSet)
-	{
-		TurretMeshComponent = turretToSet;
-	}
-}
-
 void UTankAimingComponent::MoveBarrel(FVector aimDirection)
 {
+	if (!ensure(BarrelMeshComponent) || !ensure(TurretMeshComponent))
+		return;
+
 	FRotator barrelRotator = BarrelMeshComponent->GetForwardVector().Rotation();
 	FRotator aimDirectionAsRotator = aimDirection.Rotation();
 	FRotator deltaRotator = aimDirectionAsRotator - barrelRotator;

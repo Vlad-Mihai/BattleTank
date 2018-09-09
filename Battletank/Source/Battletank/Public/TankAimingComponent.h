@@ -26,8 +26,8 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
-	void SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet);
-	void SetTurretMeshComponent(UTurretSMC* turretToSet);
+	UFUNCTION(BlueprintCallable, Category = Input)
+		void Initialise(UTankBarrelSMC* barrelToSet, UTurretSMC* turretToSet);
 
 	void AimAtLocation(FVector worldSpaceLocation, float ProjectileLaunchVelocity);
 

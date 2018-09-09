@@ -15,7 +15,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 	ATank* playerControlledTank = GetPlayerControlledTank();
 	ATank* thisTank = GetSelfControlledTank();
-	if (playerControlledTank && thisTank)
+	if (ensure(playerControlledTank) && ensure(thisTank))
 	{
 		thisTank->AimAtLocation(playerControlledTank->GetActorLocation());
 
@@ -33,7 +33,7 @@ ATank* ATankAIController::GetSelfControlledTank() const
 ATank* ATankAIController::GetPlayerControlledTank() const
 {
 	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!PlayerTank)
+	if (!ensure(PlayerTank))
 	{
 		return nullptr;
 	}

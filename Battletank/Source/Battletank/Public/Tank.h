@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
 #include "Tank.generated.h"
 
 class AProjectile;
@@ -24,17 +23,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Firing)
 		void Fire();
 
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelMeshComponent(UTankBarrelSMC* barrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurretMeshComponent(UTurretSMC* turretToSet);
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -44,9 +34,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 		UTankAimingComponent* AimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly)
-		UTankMovementComponent* MovementComponent = nullptr;
-
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float ProjectileLaunchVelocity = 70000;
@@ -55,7 +42,7 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float ReloadTimeInSeconds = 3.;
 
-	UTankBarrelSMC* BarrelRefference;
+	UTankBarrelSMC* BarrelRefference = nullptr;
 
 	double LastFireTime = 0.;
 };
