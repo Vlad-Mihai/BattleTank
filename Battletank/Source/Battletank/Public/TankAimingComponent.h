@@ -29,7 +29,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void Initialise(UTankBarrelSMC* barrelToSet, UTurretSMC* turretToSet);
 
-	void AimAtLocation(FVector worldSpaceLocation, float ProjectileLaunchVelocity);
+	void AimAtLocation(FVector hitLocation);
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -39,6 +39,9 @@ private:
 	void MoveBarrel(FVector aimDirection);
 
 private:
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float ProjectileLaunchVelocity = 70000;
+
 	UTankBarrelSMC* BarrelMeshComponent = nullptr;
 	UTurretSMC* TurretMeshComponent = nullptr;
 };

@@ -22,7 +22,7 @@ void UTankAimingComponent::Initialise(UTankBarrelSMC* barrelToSet, UTurretSMC* t
 	TurretMeshComponent = turretToSet;
 }
 
-void UTankAimingComponent::AimAtLocation(FVector worldSpaceHitLocation, float projectileLaunchVelocity)
+void UTankAimingComponent::AimAtLocation(FVector worldSpaceHitLocation)
 {
 	if (!ensure(BarrelMeshComponent))
 		return;
@@ -35,7 +35,7 @@ void UTankAimingComponent::AimAtLocation(FVector worldSpaceHitLocation, float pr
 			suggestedLaunchDirection,
 			startLocation, 
 			worldSpaceHitLocation,
-			projectileLaunchVelocity, 
+			ProjectileLaunchVelocity,
 			false, 
 			0, 
 			0, 

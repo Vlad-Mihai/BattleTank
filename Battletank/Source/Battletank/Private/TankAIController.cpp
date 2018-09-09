@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankAIController.h"
-
+#include "TankAimingComponent.h"
 
 void ATankAIController::BeginPlay()
 {
@@ -13,29 +13,21 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	ATank* playerControlledTank = GetPlayerControlledTank();
-	ATank* thisTank = GetSelfControlledTank();
-	if (ensure(playerControlledTank) && ensure(thisTank))
-	{
-		thisTank->AimAtLocation(playerControlledTank->GetActorLocation());
+	auto playerControlledTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto thisTank = GetPawn();
+	
+	if (!ensure(playerControlledTank) || !ensure(thisTank))
+		return;
 
-		//GetSelfControlledTank()->Fire();
+	UTankAimingComponent* aimingComponent =
+		thisTank->FindComponentByClass<UTankAimingComponent>();
 
-		MoveToActor(playerControlledTank, 3000);
-	}
-}
+	if (!ensure(aimingComponent))
+		return;
 
-ATank* ATankAIController::GetSelfControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
+	aimingComponent->AimAtLocation(playerControlledTank->GetActorLocation());
 
-ATank* ATankAIController::GetPlayerControlledTank() const
-{
-	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (!ensure(PlayerTank))
-	{
-		return nullptr;
-	}
-	return Cast<ATank>(PlayerTank);
+	//thisTank->Fire();  // fix firing
+
+	MoveToActor(playerControlledTank, 3000);
 }

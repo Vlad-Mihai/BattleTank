@@ -16,8 +16,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	AimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 // Called every frame
@@ -45,10 +43,10 @@ void ATank::Fire()
 	}
 }
 
-void ATank::AimAtLocation(FVector hitLocation)
-{
-	if (!ensure(AimingComponent))
-		return;
-
-	AimingComponent->AimAtLocation(hitLocation, ProjectileLaunchVelocity);
-}
+//void ATank::AimAtLocation(FVector hitLocation)
+//{
+//	if (!ensure(AimingComponent))
+//		return;
+//
+//	AimingComponent->AimAtLocation(hitLocation, ProjectileLaunchVelocity);
+//}
