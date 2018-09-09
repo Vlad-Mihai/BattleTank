@@ -17,10 +17,53 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+
+	LastFireTime = FPlatformTime::Seconds();
+}
+
 void UTankAimingComponent::Initialise(UTankBarrelSMC* barrelToSet, UTurretSMC* turretToSet)
 {
 	BarrelMeshComponent = barrelToSet;
 	TurretMeshComponent = turretToSet;
+}
+
+void UTankAimingComponent::TickComponent(
+	float deltaTime,
+	enum ELevelTick tickType,
+	FActorComponentTickFunction *thisTickFunction)
+{
+	Super::TickComponent(deltaTime, tickType, thisTickFunction);
+
+	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+
+	if (isReloaded)
+	{
+		if (IsBarrelMoving())
+		{
+			FiringState = ETankFiringState::AIMING;
+		}
+		else
+		{
+			FiringState = ETankFiringState::LOCKED_ON;
+		}
+	}
+	else
+	{
+		FiringState = ETankFiringState::RELOADING;
+	}
+}
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(BarrelMeshComponent))
+		return false;
+
+	FVector barrelForwardVector = BarrelMeshComponent->GetForwardVector();
+
+	return !barrelForwardVector.Equals(AimDirection);
 }
 
 void UTankAimingComponent::AimAtLocation(FVector worldSpaceHitLocation)
@@ -42,9 +85,9 @@ void UTankAimingComponent::AimAtLocation(FVector worldSpaceHitLocation)
 			0, 
 			ESuggestProjVelocityTraceOption::DoNotTrace))
 	{
-		FVector aimDirection = suggestedLaunchDirection.GetSafeNormal();
+		AimDirection = suggestedLaunchDirection.GetSafeNormal();
 		
-		MoveBarrel(aimDirection);
+		MoveBarrel(AimDirection);
 	}
 }
 
@@ -61,21 +104,20 @@ void UTankAimingComponent::MoveBarrel(FVector aimDirection)
 	TurretMeshComponent->Rotate(deltaRotator.Yaw);
 }
 
-
 void UTankAimingComponent::Fire()
 {
 	if (!ensure(BarrelMeshComponent) || !ensure(ProjectileBlueprint))
 		return;
 
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (isReloaded)
+	if (FiringState == ETankFiringState::LOCKED_ON)
 	{
 		AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			BarrelMeshComponent->GetSocketLocation(FName("ProjectileExitPoint")),
 			BarrelMeshComponent->GetSocketRotation(FName("ProjectileExitPoint")));
-
+		
 		projectile->LaunchProjectile(ProjectileLaunchVelocity);
+		
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }

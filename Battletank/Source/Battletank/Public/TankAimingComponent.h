@@ -7,11 +7,11 @@
 #include "TankAimingComponent.generated.h"
 
 UENUM()
-enum class EFiringState : uint8
+enum class ETankFiringState : uint8
 {
 	RELOADING,
 	AIMING,
-	LOCKED
+	LOCKED_ON
 };
 
 class UTankBarrelSMC;
@@ -27,6 +27,13 @@ public:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	virtual void UTankAimingComponent::BeginPlay() override;
+
+	virtual void TickComponent(
+		float deltaTime,
+		enum ELevelTick tickType,
+		FActorComponentTickFunction *thisTickFunction) override;
+
 	UFUNCTION(BlueprintCallable, Category = Input)
 		void Initialise(UTankBarrelSMC* barrelToSet, UTurretSMC* turretToSet);
 
@@ -37,10 +44,12 @@ public:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-		EFiringState FiringState = EFiringState::RELOADING;
+		ETankFiringState FiringState = ETankFiringState::RELOADING;
 
 private:
 	void MoveBarrel(FVector aimDirection);
+
+	bool IsBarrelMoving();
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
@@ -56,4 +65,6 @@ private:
 	UTurretSMC* TurretMeshComponent = nullptr;
 
 	double LastFireTime = 0.;
+
+	FVector AimDirection;
 };
