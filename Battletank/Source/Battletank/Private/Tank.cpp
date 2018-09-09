@@ -24,29 +24,3 @@ void ATank::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-void ATank::Fire()
-{
-	if (!ensure(BarrelRefference))
-		return;
-
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (isReloaded)
-	{
-		AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBlueprint,
-			BarrelRefference->GetSocketLocation(FName("ProjectileExitPoint")),
-			BarrelRefference->GetSocketRotation(FName("ProjectileExitPoint")));
-
-		projectile->LaunchProjectile(ProjectileLaunchVelocity);
-		LastFireTime = FPlatformTime::Seconds();
-	}
-}
-
-//void ATank::AimAtLocation(FVector hitLocation)
-//{
-//	if (!ensure(AimingComponent))
-//		return;
-//
-//	AimingComponent->AimAtLocation(hitLocation, ProjectileLaunchVelocity);
-//}
