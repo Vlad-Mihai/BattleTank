@@ -26,7 +26,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 {
 	APawn* controlledTank = GetPawn();
 	
-	if (!ensure(controlledTank))
+	if (!controlledTank)
 		return;
 
 	UTankAimingComponent* aimingComponent =
