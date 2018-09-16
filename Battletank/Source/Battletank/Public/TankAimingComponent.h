@@ -42,6 +42,8 @@ public:
 
 	void AimAtLocation(FVector hitLocation);
 
+	ETankFiringState GetFiringState() const;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		ETankFiringState FiringState = ETankFiringState::RELOADING;

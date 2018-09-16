@@ -13,11 +13,17 @@ void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//UE_LOG(LogTemp, Warning, TEXT("AI Controller ticking."));
+
 	auto playerControlledTank = GetWorld()->GetFirstPlayerController()->GetPawn();
 	auto thisTank = GetPawn();
 	
 	if (!ensure(playerControlledTank) || !ensure(thisTank))
 		return;
+
+	//UE_LOG(LogTemp, Warning, TEXT("AI Controller wanting to move to: [%f,%f,%f]."), playerControlledTank->GetActorLocation().X, playerControlledTank->GetActorLocation().Y, playerControlledTank->GetActorLocation().Z);
+
+	MoveToActor(playerControlledTank, ProximityAcceptanceRadius);
 
 	UTankAimingComponent* aimingComponent =
 		thisTank->FindComponentByClass<UTankAimingComponent>();
@@ -27,7 +33,8 @@ void ATankAIController::Tick(float DeltaTime)
 
 	aimingComponent->AimAtLocation(playerControlledTank->GetActorLocation());
 
-	//aimingComponent->Fire();
-
-	MoveToActor(playerControlledTank, 3000);
+	if (aimingComponent->GetFiringState() == ETankFiringState::LOCKED_ON)
+	{
+		aimingComponent->Fire();
+	}
 }

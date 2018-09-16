@@ -17,6 +17,8 @@ void UTankTrackSMC::BeginPlay()
 
 void UTankTrackSMC::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *GetOwner()->GetName(), CurrentThrottle);
+
 	DriveTrack();
 	ApplyCorrectingSideForce();
 
@@ -39,7 +41,7 @@ void UTankTrackSMC::ApplyCorrectingSideForce()
 
 void UTankTrackSMC::SetThrottle(float throttle)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *GetOwner()->GetName(), throttle);
+	//UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *GetOwner()->GetName(), throttle);
 
 	CurrentThrottle = FMath::Clamp<float>(throttle, -1., 1.);
 }
